@@ -19,29 +19,39 @@ const TableComponent = (): React.ReactElement => {
   //стейт для id сущности
   //const [entityId, setEntityId] = useState<number>();
 
-  const [tableData, setTabledata] = useState<TableData[]>([]);
+  const [tableData, setTableData] = useState<TableData[]>([]);
   const [editMode, setEditMode] = useState<boolean>(false);
+  const [userInput, setUserInput] = useState({});
 
   //получение id сущности
   // const fetchEntity = async ():Promise<Entity> => {
-  //     const entity = await axios.post('http://185.244.172.108:8081/v1/outlay-rows/entity/create');
+  //     const entity = await axios.post(`${process.env.REACT_APP_BASE_URL}/create`);
   //     return entity.data;
   // };
   const fetchData = async (): Promise<TableData> => {
     const tableData = await axios.get(
-      `http://185.244.172.108:8081/v1/outlay-rows/entity/31267/row/list`
+      `${process.env.REACT_APP_BASE_URL}/${process.env.REACT_APP_ENTITY_ID}/row/list`
     );
     return tableData.data;
   };
 
   useEffect(() => {
     //fetchEntity().then((res) => setEntityId(res.id));
-    fetchData().then((res) => setTabledata([res]));
+    fetchData().then((res) => setTableData([res]));
   }, []);
 
   console.log(tableData);
 
-  const createRow = async () => {};
+  const createRow = async () => {
+    try {
+      const res = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/${process.env.REACT_APP_ENTITY_ID}/row/create`, {}
+      );
+    }
+    catch (e) {
+      console.log(e);
+    }
+  };
 
   const editRow = async () => {
     setEditMode(true);
@@ -49,10 +59,14 @@ const TableComponent = (): React.ReactElement => {
 
   const updateRow = async () => {};
 
-  const deleteRow = async () => {};
-
-  const handleChangeRow = (e: any) => {};
-
+  const deleteRow = async (rowId: number):Promise<void> => {
+    try {
+      const newData = tableData.filter((row: TableData) => row.parentId !== rowId ? row : null);
+      setTableData(newData);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -71,7 +85,13 @@ const TableComponent = (): React.ReactElement => {
         </TableHead>
         <TableBody>
           {tableData.map((item) => (
-            <TableRowComponent data={item} key={item.parentId} />
+            <TableRowComponent
+              data={item}
+              key={item.parentId}
+              createRow={createRow}
+              handleDelete={deleteRow}
+              handleUpdate={updateRow}
+              />
           ))}
         </TableBody>
       </Table>

@@ -1,6 +1,6 @@
 export interface Entity {
     id: number;
-    rowname: string;
+    rowName: string;
 }
 
 export interface TableData {
@@ -13,5 +13,12 @@ export interface TableData {
   }
 
   export interface Props {
-    data: TableData
+    data: TableData;
+    createRow: () => {}
+    handleUpdate: () => {};
+    handleDelete: (rowId: number) => Promise<void>;
+  }
+
+  export interface UserInput {
+
   }

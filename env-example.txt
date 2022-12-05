@@ -1,0 +1,2 @@
+REACT_APP_ENTITY_ID = 31267
+REACT_APP_BASE_URL = http://185.244.172.108:8081/v1/outlay-rows/entity

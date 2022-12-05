@@ -1,5 +1,5 @@
-import React from "react";
-import { Props } from "../interfaces";
+import React, { useState } from "react";
+import { Props, TableData } from "../interfaces";
 import { TableRow, TableCell, SpeedDial, SpeedDialAction, Stack } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import DescriptionTwoToneIcon from '@mui/icons-material/DescriptionTwoTone';
@@ -12,6 +12,10 @@ const actions = [
   
 
 const TableRowComponent = (props: Props) => {
+
+
+  const handleChangeRow = (e: any) => {};
+
   return (
   <TableRow>
   <TableCell>
@@ -33,6 +37,10 @@ const TableRowComponent = (props: Props) => {
     </SpeedDial>
     </Stack>
   </TableCell>
+  <TableCell>{props.data.salary}</TableCell>
+  <TableCell>{props.data.equipmentCosts}</TableCell>
+  <TableCell>{props.data.overheads}</TableCell>
+  <TableCell>{props.data.estimatedProfit}</TableCell>
   </TableRow>
   );
 };
