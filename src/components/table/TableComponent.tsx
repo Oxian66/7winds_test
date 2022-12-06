@@ -20,8 +20,6 @@ const TableComponent = (): React.ReactElement => {
   //const [entityId, setEntityId] = useState<number>();
 
   const [tableData, setTableData] = useState<TableData[]>([]);
-  const [editMode, setEditMode] = useState<boolean>(false);
-  const [userInput, setUserInput] = useState({});
 
   //получение id сущности
   // const fetchEntity = async ():Promise<Entity> => {
@@ -51,10 +49,6 @@ const TableComponent = (): React.ReactElement => {
     catch (e) {
       console.log(e);
     }
-  };
-
-  const editRow = async () => {
-    setEditMode(true);
   };
 
   const updateRow = async () => {};
