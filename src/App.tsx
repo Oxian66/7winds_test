@@ -8,19 +8,19 @@ import TableComponent from './components/table/TableComponent';
 function App() {
   return (
     <Box sx={{height: '100vh'}}>
-      <div className="container_app">
+      <div className='container_app'>
         <Header />
         <Divider
-          orientation="horizontal"
+          orientation='horizontal'
           flexItem
-          sx={{ background: "#A1A1AA" }}
+          sx={{ background: '#A1A1AA' }}
         />
-        <Stack direction="row">
+        <Stack direction='row'>
           <SideBar />
           <Divider
-            orientation="vertical"
+            orientation='vertical'
             flexItem
-            sx={{ background: "#A1A1AA" }}
+            sx={{ background: '#A1A1AA' }}
           />
           <TableComponent />
         </Stack>

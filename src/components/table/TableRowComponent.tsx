@@ -1,14 +1,13 @@
-import React, { useState } from "react";
-import { Props, TableData, UserInput } from "../interfaces";
+import React, { useState } from 'react';
+import { Props, TableData, UserInput } from '../interfaces';
 import {
   TableRow,
   TableCell,
   SpeedDial,
   SpeedDialAction,
-  Stack,
   TextField,
-} from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
+} from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import FolderOpenOutlinedIcon from '@mui/icons-material/FolderOpenOutlined';
 
@@ -18,9 +17,9 @@ const TableRowComponent = (props: Props) => {
   const [editMode, setEditMode] = useState<boolean>(false);
 
   const actions = [
-    { icon: <FolderOpenOutlinedIcon color='success' />, name: "Level 2", action: props.createRow },
-    { icon: <DescriptionOutlinedIcon />, name: "Document", action: props.createRow },
-    { icon: <DeleteIcon color='error'/>, name: "Delete", action: props.handleDelete },
+    { icon: <FolderOpenOutlinedIcon color='success' />, name: 'Level 2', action: props.createRow },
+    { icon: <DescriptionOutlinedIcon />, name: 'Document', action: props.createRow },
+    { icon: <DeleteIcon color='error'/>, name: 'Delete', action: props.handleDelete },
   ];
   const actionSize = {
     width: 0,
@@ -44,12 +43,12 @@ const TableRowComponent = (props: Props) => {
   return (
     <>
       {editMode ? (
-        <TableRow >
+        <TableRow>
           <TableCell>
             <SpeedDial
-              ariaLabel="level"
+              ariaLabel='level'
               icon={<FolderOpenOutlinedIcon />}
-              direction="right"
+              direction='right'
               sx={{ '& .MuiFab-primary': { width: 0, height: 0 } }}
             >
               {actions.map((action) => (
@@ -63,7 +62,7 @@ const TableRowComponent = (props: Props) => {
               ))}
             </SpeedDial>
           </TableCell>
-          <TableCell>
+          <TableCell >
             <TextField />
           </TableCell>
           <TableCell>
@@ -80,13 +79,12 @@ const TableRowComponent = (props: Props) => {
           </TableCell>
         </TableRow>
       ) : (
-        <TableRow >
-          <TableCell>
-            <Stack direction="row" spacing={1}>
+        <TableRow onDoubleClick={handleEditRow} >
+          <TableCell sx={{pt: 0, pb: 0}}>
               <SpeedDial
-                ariaLabel="level"
+                ariaLabel='level'
                 icon={<FolderOpenOutlinedIcon color='primary' />}
-                direction="right"
+                direction='right'
                 sx={{ '& .MuiFab-primary': { width: 0, height: 0 } }}
               >
                 {actions.map((action) => (
@@ -98,14 +96,13 @@ const TableRowComponent = (props: Props) => {
                     onClick={() => action.action(props.data.id)}
                   />
                 ))}
-                {props.data.rowName}
               </SpeedDial>
-            </Stack>
-          </TableCell>
-          <TableCell sx={{color: 'white'}}>{`${props.data.salary}`}</TableCell>
-          <TableCell sx={{color: 'white'}}>{props.data.equipmentCosts}</TableCell>
-          <TableCell sx={{color: 'white'}}>{props.data.overheads}</TableCell>
-          <TableCell sx={{color: 'white'}}>{props.data.estimatedProfit}</TableCell>
+          </TableCell >
+          <TableCell sx={{color: 'white', pt: 0, pb: 0 }}>{props.data.rowName}</TableCell>
+          <TableCell sx={{color: 'white', pt: 0, pb: 0}}>{props.data.salary}</TableCell>
+          <TableCell sx={{color: 'white', pt: 0, pb: 0}}>{props.data.equipmentCosts}</TableCell>
+          <TableCell sx={{color: 'white', pt: 0, pb: 0}}>{props.data.overheads}</TableCell>
+          <TableCell sx={{color: 'white', pt: 0, pb: 0}}>{props.data.estimatedProfit}</TableCell>
         </TableRow>
       )}
     </>

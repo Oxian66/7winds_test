@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   Table,
   TableHead,
@@ -8,11 +8,11 @@ import {
   Typography,
   Divider,
   Box,
-} from "@mui/material";
-import "./Table.scss";
-import axios from "axios";
-import { Entity, TableData, UserInput } from "../interfaces";
-import TableRowComponent from "./TableRowComponent";
+} from '@mui/material';
+import './Table.scss';
+import axios from 'axios';
+import { Entity, TableData, UserInput } from '../interfaces';
+import TableRowComponent from './TableRowComponent';
 
 const TableComponent = (): React.ReactElement => {
   //стейт для  сущности
@@ -37,7 +37,7 @@ const TableComponent = (): React.ReactElement => {
     fetchData().then((res) => setTableData([...res]));
   }, []);
 
-  console.log("tableData", tableData);
+  console.log('tableData', tableData);
 
   const createRow = async () => {
     try {
@@ -91,33 +91,33 @@ const TableComponent = (): React.ReactElement => {
         row.id !== rowId ? row : null
       );
       setTableData(newData);
-      console.log("test");
+      console.log('test');
     } catch (e) {
       console.log(e);
     }
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Typography sx={{ pt: "12px", pb: "12px", pl: "15px" }}>
+    <Box sx={{ width: '100%' }}>
+      <Typography sx={{ pt: '12px', pb: '12px', pl: '15px' }}>
         СТРОИТЕЛЬНО-МОНТАЖНЫЕ РАБОТЫ
       </Typography>
       <Divider
-        orientation="horizontal"
+        orientation='horizontal'
         flexItem
-        sx={{ background: "#A1A1AA" }}
+        sx={{ background: '#A1A1AA' }}
       />
-      <Table className="table-wrapper">
-        <TableHead className="table-wrapper">
-          <TableRow>
-            <TableCell className="cell" sx={{ color: "white", w: "110px" }}>
+      <Table className='table-wrapper'>
+        <TableHead className='table-wrapper'>
+          <TableRow >
+            <TableCell sx={{ color: 'white', w: '110px' }}>
               Уровень
             </TableCell>
-            <TableCell sx={{ color: "white" }}>Наименование работ</TableCell>
-            <TableCell sx={{ color: "white" }}>Основная з/п</TableCell>
-            <TableCell sx={{ color: "white" }}>Оборудование</TableCell>
-            <TableCell sx={{ color: "white" }}>Накладные расходы</TableCell>
-            <TableCell sx={{ color: "white" }}>Сметная прибыль</TableCell>
+            <TableCell sx={{ color: 'white' }}>Наименование работ</TableCell>
+            <TableCell sx={{ color: 'white' }}>Основная з/п</TableCell>
+            <TableCell sx={{ color: 'white' }}>Оборудование</TableCell>
+            <TableCell sx={{ color: 'white' }}>Накладные расходы</TableCell>
+            <TableCell sx={{ color: 'white' }}>Сметная прибыль</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

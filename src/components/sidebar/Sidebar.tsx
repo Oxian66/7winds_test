@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Accordion,
   AccordionSummary,
@@ -6,16 +6,16 @@ import {
   Typography,
   Divider,
   Box
-} from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+} from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import "./Sidebar.style.scss";
+import './Sidebar.style.scss';
 
 const SideBar = () => {
 
   return (
     <Box sx={{height: '100vh'}}>
-    <aside className="sidebar">
+    <aside className='sidebar'>
       <Accordion
         sx={{
           borderRadius: 0,
@@ -25,8 +25,8 @@ const SideBar = () => {
       >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
+          aria-controls='panel1a-content'
+          id='panel1a-header'
           sx={{mB: '0'}}
     
         > 
@@ -36,7 +36,7 @@ const SideBar = () => {
           <Typography className='typography'>Абриевиатура</Typography>
          </AccordionDetails>
       </Accordion>
-      <Divider orientation="horizontal" flexItem  sx={{background: '#A1A1AA'}}/>
+      <Divider orientation='horizontal' flexItem  sx={{background: '#A1A1AA'}}/>
       <ul>
         <li>По проекту</li>
         <li>Обьекты</li>
