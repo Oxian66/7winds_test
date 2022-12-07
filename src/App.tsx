@@ -7,7 +7,7 @@ import TableComponent from './components/table/TableComponent';
 
 function App() {
   return (
-    <Box sx={{height: '100%'}}>
+    <Box sx={{height: '100vh'}}>
       <div className="container_app">
         <Header />
         <Divider

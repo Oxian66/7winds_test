@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Table,
   TableHead,
@@ -8,16 +8,15 @@ import {
   Typography,
   Divider,
   Box,
-} from '@mui/material';
-import './Table.scss';
-import axios from 'axios';
-import { Entity, TableData } from '../interfaces';
-import TableRowComponent from './TableRowComponent';
-
+} from "@mui/material";
+import "./Table.scss";
+import axios from "axios";
+import { Entity, TableData, UserInput } from "../interfaces";
+import TableRowComponent from "./TableRowComponent";
 
 const TableComponent = (): React.ReactElement => {
-  //стейт для id сущности
-  //const [entityId, setEntityId] = useState<number>();
+  //стейт для  сущности
+  //const [entity, setEntity] = useState<number>();
 
   const [tableData, setTableData] = useState<TableData[]>([]);
 
@@ -26,7 +25,7 @@ const TableComponent = (): React.ReactElement => {
   //     const entity = await axios.post(`${process.env.REACT_APP_BASE_URL}/create`);
   //     return entity.data;
   // };
-  const fetchData = async (): Promise<TableData> => {
+  const fetchData = async (): Promise<TableData[]> => {
     const tableData = await axios.get(
       `${process.env.REACT_APP_BASE_URL}/${process.env.REACT_APP_ENTITY_ID}/row/list`
     );
@@ -34,58 +33,102 @@ const TableComponent = (): React.ReactElement => {
   };
 
   useEffect(() => {
-    //fetchEntity().then((res) => setEntityId(res.id));
-    fetchData().then((res) => setTableData([res]));
+    //fetchEntity().then((res) => setEntity(res));
+    fetchData().then((res) => setTableData([...res]));
   }, []);
 
-  console.log(tableData);
+  console.log("tableData", tableData);
 
   const createRow = async () => {
     try {
-      const res = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/${process.env.REACT_APP_ENTITY_ID}/row/create`, {}
-      );
-    }
-    catch (e) {
+      if (!tableData.length) {
+        const res = await axios.post(
+          `${process.env.REACT_APP_BASE_URL}/${process.env.REACT_APP_ENTITY_ID}/row/create`,
+          {
+            equipmentCosts: 0,
+            estimatedProfit: 0,
+            machineOperatorSalary: 0,
+            mainCosts: 0,
+            materials: 0,
+            mimExploitation: 0,
+            overheads: 0,
+            parentId: null,
+            rowName: `${process.env.REACT_APP_DASE_ROW_NAME}`,
+            salary: 0,
+            supportCosts: 0,
+          }
+        );
+        setTableData(res.data);
+      } else {
+        const res = await axios.post(
+          `${process.env.REACT_APP_BASE_URL}/${process.env.REACT_APP_ENTITY_ID}/row/create`,
+          {
+            equipmentCosts: 0,
+            estimatedProfit: 0,
+            machineOperatorSalary: 0,
+            mainCosts: 0,
+            materials: 0,
+            mimExploitation: 0,
+            overheads: 0,
+            parentId: 0,
+            rowName: `${process.env.REACT_APP_DASE_ROW_NAME}`,
+            salary: 0,
+            supportCosts: 0,
+          }
+        );
+        setTableData(res.data);
+      }
+    } catch (e) {
       console.log(e);
     }
   };
 
-  const updateRow = async () => {};
+  const updateRow = async (rowId: number, input: UserInput) => {};
 
-  const deleteRow = async (rowId: number):Promise<void> => {
+  const deleteRow = async (rowId: number): Promise<void> => {
     try {
-      const newData = tableData.filter((row: TableData) => row.parentId !== rowId ? row : null);
+      const newData = tableData.filter((row: TableData) =>
+        row.id !== rowId ? row : null
+      );
       setTableData(newData);
+      console.log("test");
     } catch (e) {
       console.log(e);
     }
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Typography sx={{pt: '12px', pb:'12px', pl: '15px'}}>СТРОИТЕЛЬНО-МОНТАЖНЫЕ РАБОТЫ</Typography>
-      <Divider orientation="horizontal" flexItem  sx={{background: '#A1A1AA'}}/>
-      <Table className="table-wrapper" >
+    <Box sx={{ width: "100%" }}>
+      <Typography sx={{ pt: "12px", pb: "12px", pl: "15px" }}>
+        СТРОИТЕЛЬНО-МОНТАЖНЫЕ РАБОТЫ
+      </Typography>
+      <Divider
+        orientation="horizontal"
+        flexItem
+        sx={{ background: "#A1A1AA" }}
+      />
+      <Table className="table-wrapper">
         <TableHead className="table-wrapper">
-          <TableRow >
-            <TableCell className="cell" sx={{color: 'white'}}>Уровень</TableCell>
-            <TableCell sx={{color: 'white'}}>Наименование работ</TableCell>
-            <TableCell sx={{color: 'white'}}>Основная з/п</TableCell>
-            <TableCell sx={{color: 'white'}}>Оборудование</TableCell>
-            <TableCell sx={{color: 'white'}}>Накладные расходы</TableCell>
-            <TableCell sx={{color: 'white'}}>Сметная прибыль</TableCell>
+          <TableRow>
+            <TableCell className="cell" sx={{ color: "white", w: "110px" }}>
+              Уровень
+            </TableCell>
+            <TableCell sx={{ color: "white" }}>Наименование работ</TableCell>
+            <TableCell sx={{ color: "white" }}>Основная з/п</TableCell>
+            <TableCell sx={{ color: "white" }}>Оборудование</TableCell>
+            <TableCell sx={{ color: "white" }}>Накладные расходы</TableCell>
+            <TableCell sx={{ color: "white" }}>Сметная прибыль</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {tableData.map((item) => (
             <TableRowComponent
               data={item}
-              key={item.parentId}
+              key={Math.random() + 1}
               createRow={createRow}
               handleDelete={deleteRow}
               handleUpdate={updateRow}
-              />
+            />
           ))}
         </TableBody>
       </Table>

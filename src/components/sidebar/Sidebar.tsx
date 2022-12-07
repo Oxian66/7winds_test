@@ -14,6 +14,7 @@ import "./Sidebar.style.scss";
 const SideBar = () => {
 
   return (
+    <Box sx={{height: '100vh'}}>
     <aside className="sidebar">
       <Accordion
         sx={{
@@ -54,6 +55,7 @@ const SideBar = () => {
         <li>Контрагенты</li>
       </ul>
     </aside>
+    </Box>
   );
 };
 export default SideBar;
