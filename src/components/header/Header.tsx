@@ -1,7 +1,6 @@
 import React from "react";
 import {
   IconButton,
-  Box,
   Typography,
   AppBar,
   Toolbar,
@@ -12,7 +11,7 @@ import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
 import MenuIcon from "@mui/icons-material/Menu";
 import "./Header.style.scss";
 
-const Header = () => {
+export default function Header():React.ReactElement {
   const darkTheme = createTheme({
     palette: {
       mode: "dark",
@@ -22,7 +21,6 @@ const Header = () => {
     },
   });
   return (
-    // <Box sx={{ flexGrow: 1 }}>
     <ThemeProvider theme={darkTheme}>
       <AppBar position="static" color="primary">
         <Toolbar variant="dense">
@@ -39,8 +37,5 @@ const Header = () => {
         </Toolbar>
       </AppBar>
     </ThemeProvider>
-
-    // </Box>
   );
 };
-export default Header;

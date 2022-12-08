@@ -5,7 +5,7 @@ import SideBar from './components/sidebar/Sidebar';
 import {  Stack, Divider, Box } from '@mui/material';
 import TableComponent from './components/table/TableComponent';
 
-function App() {
+export default function App() {
   return (
     <Box sx={{height: '100vh'}}>
       <div className='container_app'>
@@ -28,5 +28,3 @@ function App() {
     </Box>
   );
 }
-
-export default App;

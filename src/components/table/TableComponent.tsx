@@ -14,7 +14,7 @@ import axios from 'axios';
 import { Entity, TableData, UserInput } from '../interfaces';
 import TableRowComponent from './TableRowComponent';
 
-const TableComponent = (): React.ReactElement => {
+export default function TableComponent(): React.ReactElement {
   //стейт для  сущности
   //const [entity, setEntity] = useState<number>();
 
@@ -53,7 +53,7 @@ const TableComponent = (): React.ReactElement => {
             mimExploitation: 0,
             overheads: 0,
             parentId: null,
-            rowName: `${process.env.REACT_APP_DASE_ROW_NAME}`,
+            rowName: '',
             salary: 0,
             supportCosts: 0,
           }
@@ -71,7 +71,7 @@ const TableComponent = (): React.ReactElement => {
             mimExploitation: 0,
             overheads: 0,
             parentId: 0,
-            rowName: `${process.env.REACT_APP_DASE_ROW_NAME}`,
+            rowName: '',
             salary: 0,
             supportCosts: 0,
           }
@@ -83,7 +83,7 @@ const TableComponent = (): React.ReactElement => {
     }
   };
 
-  const updateRow = async (rowId: number, input: UserInput) => {};
+  const updateRow = async (rowId: number, input: UserInput): Promise<void> => {};
 
   const deleteRow = async (rowId: number): Promise<void> => {
     try {
@@ -97,31 +97,47 @@ const TableComponent = (): React.ReactElement => {
     }
   };
 
+  const mappedTree = (node: TableData):any => {
+    // return tree.map((node: TableData) => {
+      if (!node.child.length)
+        return (
+          <TableRowComponent
+            data={node}
+            key={Math.random() + 1}
+            createRow={createRow}
+            handleDelete={deleteRow}
+            handleUpdate={updateRow}
+          />
+        );
+      else {
+         return node.child.forEach(mappedTree);
+      }
+    //});
+  };
+
   return (
-    <Box sx={{ width: '100%' }}>
-      <Typography sx={{ pt: '12px', pb: '12px', pl: '15px' }}>
+    <Box sx={{ width: "100%" }}>
+      <Typography sx={{ pt: "12px", pb: "12px", pl: "15px" }}>
         СТРОИТЕЛЬНО-МОНТАЖНЫЕ РАБОТЫ
       </Typography>
       <Divider
-        orientation='horizontal'
+        orientation="horizontal"
         flexItem
-        sx={{ background: '#A1A1AA' }}
+        sx={{ background: "#A1A1AA" }}
       />
-      <Table className='table-wrapper'>
-        <TableHead className='table-wrapper'>
-          <TableRow >
-            <TableCell sx={{ color: 'white', w: '110px' }}>
-              Уровень
-            </TableCell>
-            <TableCell sx={{ color: 'white' }}>Наименование работ</TableCell>
-            <TableCell sx={{ color: 'white' }}>Основная з/п</TableCell>
-            <TableCell sx={{ color: 'white' }}>Оборудование</TableCell>
-            <TableCell sx={{ color: 'white' }}>Накладные расходы</TableCell>
-            <TableCell sx={{ color: 'white' }}>Сметная прибыль</TableCell>
+      <Table className="table-wrapper">
+        <TableHead className="table-wrapper">
+          <TableRow>
+            <TableCell sx={{ color: "white", w: "110px" }}>Уровень</TableCell>
+            <TableCell sx={{ color: "white" }}>Наименование работ</TableCell>
+            <TableCell sx={{ color: "white" }}>Основная з/п</TableCell>
+            <TableCell sx={{ color: "white" }}>Оборудование</TableCell>
+            <TableCell sx={{ color: "white" }}>Накладные расходы</TableCell>
+            <TableCell sx={{ color: "white" }}>Сметная прибыль</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {tableData.map((item) => (
+           {/* {tableData.map((item) => (
             <TableRowComponent
               data={item}
               key={Math.random() + 1}
@@ -129,10 +145,11 @@ const TableComponent = (): React.ReactElement => {
               handleDelete={deleteRow}
               handleUpdate={updateRow}
             />
-          ))}
+          )
+          )} */}
+        <>{tableData.map(item => mappedTree(item))}</>
         </TableBody>
       </Table>
     </Box>
   );
 };
-export default TableComponent;

@@ -11,7 +11,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import './Sidebar.style.scss';
 
-const SideBar = () => {
+export default function SideBar():React.ReactElement {
 
   return (
     <Box sx={{height: '100vh'}}>
@@ -58,4 +58,3 @@ const SideBar = () => {
     </Box>
   );
 };
-export default SideBar;

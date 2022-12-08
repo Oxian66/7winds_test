@@ -6,7 +6,7 @@ export interface Entity {
 
 export interface TableData {
     id: number;
-    child: number[];
+    child: TableData[];
     parentId: number;
     rowName: string;
     salary: number;
