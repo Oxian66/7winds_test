@@ -13,6 +13,7 @@ import './Table.scss';
 import axios from 'axios';
 import { Entity, TableData, UserInput } from '../interfaces';
 import TableRowComponent from './TableRowComponent';
+import { Console } from 'console';
 
 export default function TableComponent(): React.ReactElement {
   //стейт для  сущности
@@ -83,9 +84,9 @@ export default function TableComponent(): React.ReactElement {
     }
   };
 
-  const updateRow = async (rowId: number, input: UserInput): Promise<void> => {};
+  const updateRow = async (eId: number, rowId: number, input?: UserInput): Promise<void> => {};
 
-  const deleteRow = async (rowId: number): Promise<void> => {
+  const deleteRow = async (eId: number, rowId: number): Promise<void> => {
     try {
       const newData = tableData.filter((row: TableData) =>
         row.id !== rowId ? row : null
@@ -98,8 +99,8 @@ export default function TableComponent(): React.ReactElement {
   };
 
   const mappedTree = (node: TableData):any => {
-    // return tree.map((node: TableData) => {
-      if (!node.child.length)
+    // return node.map((node: TableData) => {
+      if (node.child.length)
         return (
           <TableRowComponent
             data={node}
@@ -110,7 +111,8 @@ export default function TableComponent(): React.ReactElement {
           />
         );
       else {
-         return node.child.forEach(mappedTree);
+        node.child.forEach(item => mappedTree(item));
+        //mappedTree(node.child)
       }
     //});
   };
@@ -147,7 +149,13 @@ export default function TableComponent(): React.ReactElement {
             />
           )
           )} */}
-        <>{tableData.map(item => mappedTree(item))}</>
+          
+        <>{
+        tableData.map(item => {
+          console.log('item', item)
+          return mappedTree(item)
+        })      
+        }</>
         </TableBody>
       </Table>
     </Box>

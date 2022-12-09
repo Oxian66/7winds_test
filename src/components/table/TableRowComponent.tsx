@@ -56,6 +56,7 @@ export default function TableRowComponent(props: Props):React.ReactElement {
   };
 
   const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value);
     setUserInput({
       ...userInput,
       [e.target.name as string]: e.target.value
@@ -94,25 +95,25 @@ export default function TableRowComponent(props: Props):React.ReactElement {
                   icon={action.icon}
                   tooltipTitle={action.name}
                   sx={actionSize}
-                  onClick={() => action.action(props.data.id)}
+                  onClick={() => action.action(props.data.id, Number(process.env.REACT_APP_ENTITY_ID))}
                 />
               ))}
             </SpeedDial>
           </TableCell>
           <TableCell sx={{ color: 'white', pt: 0, pb: 0 }}>
-            <TextField size='small' name='rowName'/>
+            <TextField size='small' name='rowName' onChange={handleUserInput}/>
           </TableCell>
           <TableCell sx={{ color: 'white', pt: 0, pb: 0 }}>
-            <TextField size='small' name='salary'/>
+            <TextField size='small' name='salary' onChange={handleUserInput}/>
           </TableCell>
           <TableCell sx={{ color: 'white', pt: 0, pb: 0 }}>
             <TextField size='small' name='equipmentCosts'/>
           </TableCell>
           <TableCell sx={{ color: 'white', pt: 0, pb: 0 }}>
-            <TextField size='small' name='overheads'/>
+            <TextField size='small' name='overheads' onChange={handleUserInput}/>
           </TableCell>
           <TableCell sx={{ color: 'white', pt: 0, pb: 0 }}>
-            <TextField size='small' name='estimatedProfit'/>
+            <TextField size='small' name='estimatedProfit' onChange={handleUserInput}/>
           </TableCell>
         </TableRow>
       ) : (
@@ -130,7 +131,7 @@ export default function TableRowComponent(props: Props):React.ReactElement {
                   icon={action.icon}
                   tooltipTitle={action.name}
                   sx={actionSize}
-                  onClick={() => action.action(props.data.id)}
+                  onClick={() => action.action(props.data.id, Number(process.env.REACT_APP_ENTITY_ID))}
                 />
               ))}
             </SpeedDial>

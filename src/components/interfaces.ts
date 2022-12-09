@@ -18,8 +18,8 @@ export interface TableData {
   export interface Props {
     data: TableData;
     createRow: () => {}
-    handleUpdate: (rowId: number, input: UserInput) => {};
-    handleDelete: (rowId: number) => Promise<void>;
+    handleUpdate: (eId: number, rowId: number, input?: UserInput) => {};
+    handleDelete: (eId: number, rowId: number) => Promise<void>;
   }
 
   export interface UserInput {
