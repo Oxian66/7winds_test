@@ -42,6 +42,7 @@ export default function TableComponent(): React.ReactElement {
 
   const createRow = async () => {
     try {
+      //need another condition
       if (!tableData.length) {
         const res = await axios.post(
           `${process.env.REACT_APP_BASE_URL}/${process.env.REACT_APP_ENTITY_ID}/row/create`,
@@ -84,7 +85,14 @@ export default function TableComponent(): React.ReactElement {
     }
   };
 
-  const updateRow = async (eId: number, rowId: number, input?: UserInput): Promise<void> => {};
+  const updateRow = async (eId: number, rowId: number, input?: UserInput): Promise<void> => {
+    try {
+      const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/${process.env.REACT_APP_ENTITY_ID}/row/${rowId}/update`, {});
+      setTableData(res.data)
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const deleteRow = async (eId: number, rowId: number): Promise<void> => {
     try {
@@ -98,24 +106,34 @@ export default function TableComponent(): React.ReactElement {
     }
   };
 
-  const mappedTree = (node: TableData):any => {
-    // return node.map((node: TableData) => {
-      if (node.child.length)
-        return (
-          <TableRowComponent
-            data={node}
-            key={Math.random() + 1}
-            createRow={createRow}
-            handleDelete={deleteRow}
-            handleUpdate={updateRow}
-          />
-        );
-      else {
-        node.child.forEach(item => mappedTree(item));
-        //mappedTree(node.child)
-      }
-    //});
-  };
+  // const mappedTree = (node: TableData):any => {
+  //   // return node.map((node: TableData) => {
+  //     if (!node.child.length)
+  //       return (
+  //         <TableRowComponent
+  //           data={node}
+  //           key={Math.random() + 1}
+  //           createRow={createRow}
+  //           handleDelete={deleteRow}
+  //           handleUpdate={updateRow}
+  //         />
+  //       );
+  //     else {
+  //       return node.child.forEach(item => mappedTree(item));
+  //       //mappedTree(node.child)
+  //     }
+  //   //});
+  // };
+
+const buildRow = (node: TableData) => (
+  <TableRowComponent
+    data={node}
+    key={Math.random() + 1}
+    createRow={createRow}
+    handleDelete={deleteRow}
+    handleUpdate={updateRow}
+  />
+);
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -139,7 +157,9 @@ export default function TableComponent(): React.ReactElement {
           </TableRow>
         </TableHead>
         <TableBody>
-           {/* {tableData.map((item) => (
+           <>{tableData.map((item) =>
+            (
+              <>
             <TableRowComponent
               data={item}
               key={Math.random() + 1}
@@ -147,15 +167,35 @@ export default function TableComponent(): React.ReactElement {
               handleDelete={deleteRow}
               handleUpdate={updateRow}
             />
+            {item.child && item.child.length ? 
+              item.child.map(child => (
+                <>
+              <TableRowComponent
+                data={child}
+                key={Math.random() + 1}
+                createRow={createRow}
+                handleDelete={deleteRow}
+                handleUpdate={updateRow}
+              />
+              {child.child.length && child.child ?
+                child.child.map(anchestor => (
+                  <TableRowComponent
+              data={anchestor}
+              key={Math.random() + 1}
+              createRow={createRow}
+              handleDelete={deleteRow}
+              handleUpdate={updateRow}
+            />
+                )) : null
+            }
+              </>
+              ))
+             : null
+             }
+            </>
           )
-          )} */}
-          
-        <>{
-        tableData.map(item => {
-          console.log('item', item)
-          return mappedTree(item)
-        })      
-        }</>
+          )}</>
+
         </TableBody>
       </Table>
     </Box>
