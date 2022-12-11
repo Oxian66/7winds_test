@@ -17,6 +17,7 @@ export interface TableData {
 
   export interface Props {
     data: TableData;
+    depth: number;
     createRow: () => {}
     handleUpdate: (eId: number, rowId: number, input?: UserInput) => {};
     handleDelete: (eId: number, rowId: number) => Promise<void>;

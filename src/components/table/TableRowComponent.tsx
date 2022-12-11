@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Props, TableData, UserInput } from '../interfaces';
+import { Props, TableData, UserInput } from './interfaces';
 import './Table.scss';
 import {
   TableRow,
@@ -9,8 +9,8 @@ import {
   TextField,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
-import FolderIcon from '@mui/icons-material/Folder';
+import DescriptionTwoToneIcon from '@mui/icons-material/DescriptionTwoTone';
+import CustomFolderIcon from '../custom-icons/CustomFolderIcon';
 
 export default function TableRowComponent(props: Props):React.ReactElement {
 
@@ -29,12 +29,12 @@ export default function TableRowComponent(props: Props):React.ReactElement {
 
   const actions = [
     {
-      icon: <FolderIcon color='success' />,
+      icon: <CustomFolderIcon depth={2} />,
       name: 'Level 2',
       action: props.createRow,
     },
     {
-      icon: <DescriptionOutlinedIcon />,
+      icon: <DescriptionTwoToneIcon />,
       name: 'Document',
       action: props.createRow,
     },
@@ -85,15 +85,15 @@ export default function TableRowComponent(props: Props):React.ReactElement {
           <TableCell sx={{ color: 'white', pt: 0, pb: 0 }}>
             <SpeedDial
               ariaLabel='level'
-              icon={<FolderIcon color='primary' />}
+              icon={<CustomFolderIcon depth={props.depth}/>}
               direction='right'
               sx={{ '& .MuiFab-primary': { width: 0, height: 0 } }}
+              FabProps={{ variant: "extended" }}
             >
               {actions.map((action) => (
                 <SpeedDialAction
                   key={action.name}
                   icon={action.icon}
-                  tooltipTitle={action.name}
                   sx={actionSize}
                   onClick={() => action.action(props.data.id, Number(process.env.REACT_APP_ENTITY_ID))}
                 />
@@ -121,7 +121,7 @@ export default function TableRowComponent(props: Props):React.ReactElement {
           <TableCell sx={{ pt: 0, pb: 0 }}>
             <SpeedDial
               ariaLabel='level'
-              icon={<FolderIcon color='primary' />}
+              icon={<CustomFolderIcon depth={1} />}
               direction='right'
               sx={{ '& .MuiFab-primary': { width: 0, height: 0 } }}
             >
@@ -129,7 +129,6 @@ export default function TableRowComponent(props: Props):React.ReactElement {
                 <SpeedDialAction
                   key={action.name}
                   icon={action.icon}
-                  tooltipTitle={action.name}
                   sx={actionSize}
                   onClick={() => action.action(props.data.id, Number(process.env.REACT_APP_ENTITY_ID))}
                 />
@@ -155,4 +154,4 @@ export default function TableRowComponent(props: Props):React.ReactElement {
       )}
     </>
   );
-};
+}

@@ -30,13 +30,13 @@ export default function SideBar():React.ReactElement {
           sx={{mB: '0'}}
     
         > 
-          <Typography className='typography'>Название проекта</Typography> 
+          <Typography className="typography">Название проекта</Typography> 
        </AccordionSummary> 
         <AccordionDetails> 
-          <Typography className='typography'>Абриевиатура</Typography>
+          <Typography className="typography">Абриевиатура</Typography>
          </AccordionDetails>
       </Accordion>
-      <Divider orientation='horizontal' flexItem  sx={{background: '#A1A1AA'}}/>
+      <Divider orientation="horizontal" flexItem  sx={{background: '#A1A1AA'}}/>
       <ul>
         <li>По проекту</li>
         <li>Обьекты</li>
@@ -57,4 +57,4 @@ export default function SideBar():React.ReactElement {
     </aside>
     </Box>
   );
-};
+}
