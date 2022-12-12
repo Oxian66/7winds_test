@@ -29,8 +29,8 @@ export default function TableRowComponent(props: Props):React.ReactElement {
 
   const actions = [
     {
-      icon: <CustomFolderIcon depth={2} />,
-      name: 'Level 2',
+      icon: props.depth < 3 && <CustomFolderIcon depth={props.depth} level={2} />,
+      name: 'Level2',
       action: props.createRow,
     },
     {
@@ -62,7 +62,6 @@ export default function TableRowComponent(props: Props):React.ReactElement {
       [e.target.name as string]: e.target.value
     });
   };
-  console.log('props', props);
 
   return (
     <>
@@ -85,7 +84,7 @@ export default function TableRowComponent(props: Props):React.ReactElement {
           <TableCell sx={{ color: 'white', pt: 0, pb: 0 }}>
             <SpeedDial
               ariaLabel='level'
-              icon={<CustomFolderIcon depth={props.depth}/>}
+              icon={<CustomFolderIcon depth={props.depth} level={1}/>}
               direction='right'
               sx={{ '& .MuiFab-primary': { width: 0, height: 0 } }}
               FabProps={{ variant: "extended" }}
@@ -121,7 +120,7 @@ export default function TableRowComponent(props: Props):React.ReactElement {
           <TableCell sx={{ pt: 0, pb: 0 }}>
             <SpeedDial
               ariaLabel='level'
-              icon={<CustomFolderIcon depth={1} />}
+              icon={props.depth < 2 &&  <CustomFolderIcon depth={props.depth} level={1}/>}
               direction='right'
               sx={{ '& .MuiFab-primary': { width: 0, height: 0 } }}
             >

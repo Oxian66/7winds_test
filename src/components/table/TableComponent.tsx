@@ -36,47 +36,60 @@ export default function TableComponent(): React.ReactElement {
 
   console.log('tableData', tableData);
 
-  const createRow = async () => {
+  const createRow = async (userInput?: UserInput) => {
     try {
-      //need another condition
+      
       //setEditMode(true);
-      if (!tableData.length) {
-        const res = await axios.post(
-          `${process.env.REACT_APP_BASE_URL}/${process.env.REACT_APP_ENTITY_ID}/row/create`,
-          {
-            equipmentCosts: 0,
-            estimatedProfit: 0,
-            machineOperatorSalary: 0,
-            mainCosts: 0,
-            materials: 0,
-            mimExploitation: 0,
-            overheads: 0,
-            parentId: null,
-            rowName: '',
-            salary: 0,
-            supportCosts: 0,
+      // if (!tableData.length) {
+      //   const res = await axios.post(
+      //     `${process.env.REACT_APP_BASE_URL}/${process.env.REACT_APP_ENTITY_ID}/row/create`,
+      //     {
+      //       equipmentCosts: 0,
+      //       estimatedProfit: 0,
+      //       machineOperatorSalary: 0,
+      //       mainCosts: 0,
+      //       materials: 0,
+      //       mimExploitation: 0,
+      //       overheads: 0,
+      //       parentId: null,
+      //       rowName: '',
+      //       salary: 0,
+      //       supportCosts: 0,
+      //     }
+      //   );
+      //   setTableData(res.data);
+      // } else {
+      //   const res = await axios.post(
+      //     `${process.env.REACT_APP_BASE_URL}/${process.env.REACT_APP_ENTITY_ID}/row/create`,
+      //     {
+      //       equipmentCosts: 0,
+      //       estimatedProfit: 0,
+      //       machineOperatorSalary: 0,
+      //       mainCosts: 0,
+      //       materials: 0,
+      //       mimExploitation: 0,
+      //       overheads: 0,
+      //       parentId: 0,
+      //       rowName: '',
+      //       salary: 0,
+      //       supportCosts: 0,
+      //     }
+      //   );
+        //setTableData(res.data);
+      //}
+      let depth = 0;
+        switch (depth) {
+          case 1: {
+            const res = await axios.post(
+              `${process.env.REACT_APP_BASE_URL}/${process.env.REACT_APP_ENTITY_ID}/row/create`,
+              {
+                ...userInput,
+                parentId: null,
+              }
+            );
+            setTableData(res.data);
           }
-        );
-        setTableData(res.data);
-      } else {
-        const res = await axios.post(
-          `${process.env.REACT_APP_BASE_URL}/${process.env.REACT_APP_ENTITY_ID}/row/create`,
-          {
-            equipmentCosts: 0,
-            estimatedProfit: 0,
-            machineOperatorSalary: 0,
-            mainCosts: 0,
-            materials: 0,
-            mimExploitation: 0,
-            overheads: 0,
-            parentId: 0,
-            rowName: '',
-            salary: 0,
-            supportCosts: 0,
-          }
-        );
-        setTableData(res.data);
-      }
+        }
     } catch (e) {
       console.log(e);
     }
@@ -110,7 +123,11 @@ export default function TableComponent(): React.ReactElement {
         <Typography sx={{ pt: "12px", pb: "12px", pl: "15px" }}>
           СТРОИТЕЛЬНО-МОНТАЖНЫЕ РАБОТЫ
         </Typography>
-        <Divider orientation="vertical" flexItem  sx={{background: '#A1A1AA'}}/>
+        <Divider
+          orientation="vertical"
+          flexItem
+          sx={{ background: "#A1A1AA" }}
+        />
       </Stack>
       <Divider
         orientation="horizontal"
@@ -130,40 +147,41 @@ export default function TableComponent(): React.ReactElement {
         </TableHead>
         <TableBody>
           {tableData.map((item) => (
-            <>
+            <React.Fragment key={item.id}>
               <TableRowComponent
                 data={item}
                 depth={1}
-                key={item.rowName}
-                createRow={createRow}
+                createRow={() => createRow()}
                 handleDelete={deleteRow}
                 handleUpdate={updateRow}
               />
               {item.child.length &&
                 item.child.map((children) => (
-                  <>
+                  <React.Fragment key={children.id}>
                     <TableRowComponent
                       data={children}
                       depth={2}
-                      key={children.rowName}
-                      createRow={createRow}
+                      //key={children.id}
+                      createRow={() => createRow()}
                       handleDelete={deleteRow}
                       handleUpdate={updateRow}
                     />
                     {children.child.length &&
-                      children.child.map((anchestor) => (
-                        <TableRowComponent
-                          data={anchestor}
-                          depth={3}
-                          key={anchestor.rowName}
-                          createRow={createRow}
-                          handleDelete={deleteRow}
-                          handleUpdate={updateRow}
-                        />
+                      children.child.map((descendant) => (
+                        <React.Fragment key={descendant.id}>
+                          <TableRowComponent
+                            data={descendant}
+                            depth={3}
+                            //key={descendant.id}
+                            createRow={() => createRow()}
+                            handleDelete={deleteRow}
+                            handleUpdate={updateRow}
+                          />
+                        </React.Fragment>
                       ))}
-                  </>
+                  </React.Fragment>
                 ))}
-            </>
+            </React.Fragment>
           ))}
         </TableBody>
       </Table>
