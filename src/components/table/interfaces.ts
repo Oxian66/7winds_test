@@ -19,8 +19,8 @@ export interface TableData {
     data: TableData;
     depth: number;
     createRow: () => {}
-    handleUpdate: (eId: number, rowId: number, input?: UserInput) => {};
-    handleDelete: (eId: number, rowId: number) => Promise<void>;
+    handleUpdate: (rowId: number, input?: UserInput) => {};
+    handleDelete: (rowId: number) => Promise<void>;
   }
 
   export interface UserInput {

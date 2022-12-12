@@ -21,7 +21,7 @@ export default function TableComponent(): React.ReactElement {
   //const [entity, setEntity] = useState<number>();
 
   const [tableData, setTableData] = useState<TableData[]>([]);
-  //const [depth, setDepth] = useState<number>();
+  const [parentId, setParentId] = useState<number | null>(null);
 
   //получение id сущности
   // const fetchEntity = async ():Promise<Entity> => {
@@ -79,23 +79,33 @@ export default function TableComponent(): React.ReactElement {
       //}
       let depth = 0;
         switch (depth) {
-          case 1: {
+          case 1: 
             const res = await axios.post(
               `${process.env.REACT_APP_BASE_URL}/${process.env.REACT_APP_ENTITY_ID}/row/create`,
               {
                 ...userInput,
-                parentId: null,
+                parentId: parentId,
               }
             );
             setTableData(res.data);
-          }
+            break;
+          case 2:
+            const result = await axios.post(
+              `${process.env.REACT_APP_BASE_URL}/${process.env.REACT_APP_ENTITY_ID}/row/create`,
+              {
+                ...userInput,
+                parentId: setParentId(1),
+              }
+            );
+            setTableData(result.data);
+            break;
         }
     } catch (e) {
       console.log(e);
     }
   };
 
-  const updateRow = async (eId: number, rowId: number, input?: UserInput): Promise<void> => {
+  const updateRow = async (rowId: number, input?: UserInput): Promise<void> => {
     try {
       const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/${process.env.REACT_APP_ENTITY_ID}/row/${rowId}/update`, {});
       setTableData(res.data)
@@ -104,7 +114,7 @@ export default function TableComponent(): React.ReactElement {
     }
   };
 
-  const deleteRow = async (eId: number, rowId: number): Promise<void> => {
+  const deleteRow = async (rowId: number): Promise<void> => {
     try {
       const newData = tableData.filter((row: TableData) =>
         row.id !== rowId ? row : null
@@ -115,7 +125,6 @@ export default function TableComponent(): React.ReactElement {
       console.log(e);
     }
   };
-
 
   return (
     <Box sx={{ width: "100%" }}>

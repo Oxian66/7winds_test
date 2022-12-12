@@ -1,15 +1,13 @@
 import React from 'react';
-import FolderIcon from '@mui/icons-material/Folder';
+import DescriptionTwoToneIcon from '@mui/icons-material/DescriptionTwoTone';
+import { IconProps } from './interfaces';
 
-interface IconProps {
-  depth: number;
-}
-
-export default function CustomFileIcon(props: IconProps) {
+export default function CustomFileIcon({depth, level}: IconProps) {
   return (
     <>
-        <FolderIcon style={{
-          marginLeft: props.depth === 3 ? "2rem" : 0,
+        <DescriptionTwoToneIcon style={{
+          marginLeft: depth === 3 ? "3.5rem" : "0.5rem",
+          color: "gray",
           }}/>
     </>
   );
