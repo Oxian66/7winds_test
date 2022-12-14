@@ -3,7 +3,6 @@ import { Badge } from '@mui/material';
 import FolderIcon from '@mui/icons-material/Folder';
 import DescriptionTwoToneIcon from '@mui/icons-material/DescriptionTwoTone';
 import { IconProps } from './interfaces';
-import '../table/Table.scss';
 
 export default function CustomFolderIcon({ depth, level }: IconProps) {
   return (

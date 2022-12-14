@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Table,
   TableHead,
@@ -22,6 +22,7 @@ export default function TableComponent(): React.ReactElement {
 
   const [tableData, setTableData] = useState<TableData[]>([]);
   const [parentId, setParentId] = useState<number | null>(null);
+  const [editMode, setEditMode] = useState<boolean>(false);
 
   //получение id сущности
   // const fetchEntity = async ():Promise<Entity> => {
@@ -36,7 +37,7 @@ export default function TableComponent(): React.ReactElement {
 
   console.log('tableData', tableData);
 
-  const createRow = async (userInput?: UserInput) => {
+  const createRow = useCallback(async (userInput?: UserInput) => {
     try {
       
       //setEditMode(true);
@@ -77,11 +78,12 @@ export default function TableComponent(): React.ReactElement {
       //   );
         //setTableData(res.data);
       //}
+      setEditMode(true);
       let depth = 0;
         switch (depth) {
           case 1: 
             const res = await axios.post(
-              `${process.env.REACT_APP_BASE_URL}/${process.env.REACT_APP_ENTITY_ID}/row/create`,
+              `${process.env.REACT_APP_BASE_URL}/${process.env.REACT_APP_ENTITY_ID}/rowww/create`,
               {
                 ...userInput,
                 parentId: parentId,
@@ -103,31 +105,29 @@ export default function TableComponent(): React.ReactElement {
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [parentId]);
 
-  const updateRow = async (rowId: number, input?: UserInput): Promise<void> => {
+  const updateRow = useCallback(async (rowId: number, input?: UserInput): Promise<void> => {
     try {
       const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/${process.env.REACT_APP_ENTITY_ID}/row/${rowId}/update`, {});
       setTableData(res.data)
     } catch (e) {
       console.log(e);
     }
-  };
+  }, []);
 
-  const deleteRow = async (rowId: number): Promise<void> => {
+  const deleteRow = useCallback(async (rowId: number): Promise<void> => {
     try {
-      const newData = tableData.filter((row: TableData) =>
-        row.id !== rowId ? row : null
-      );
+      const newData = tableData.filter((row: TableData) => row.id !== rowId ? row : null);
       setTableData(newData);
       console.log('test');
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [tableData]);
 
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box sx={{ width: "100%", }}>
       <Stack direction="row" spacing={1}>
         <Typography sx={{ pt: "12px", pb: "12px", pl: "15px" }}>
           СТРОИТЕЛЬНО-МОНТАЖНЫЕ РАБОТЫ
@@ -170,7 +170,6 @@ export default function TableComponent(): React.ReactElement {
                     <TableRowComponent
                       data={children}
                       depth={2}
-                      //key={children.id}
                       createRow={() => createRow()}
                       handleDelete={deleteRow}
                       handleUpdate={updateRow}
@@ -181,7 +180,6 @@ export default function TableComponent(): React.ReactElement {
                           <TableRowComponent
                             data={descendant}
                             depth={3}
-                            //key={descendant.id}
                             createRow={() => createRow()}
                             handleDelete={deleteRow}
                             handleUpdate={updateRow}

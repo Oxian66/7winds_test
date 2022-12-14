@@ -1,17 +1,23 @@
-import React from 'react';
+import React, { useState, SyntheticEvent }from 'react';
 import {
   IconButton,
-  Typography,
   AppBar,
   Toolbar,
-  Stack,
+  Tab,
+  Tabs, 
 } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ReplyOutlinedIcon from '@mui/icons-material/ReplyOutlined';
-import MenuIcon from '@mui/icons-material/Menu';
+import AppsIcon from '@mui/icons-material/Apps';
 import './Header.style.scss';
 
 export default function Header():React.ReactElement {
+  const [value, setValue] = useState<number>(0);
+
+  const handleChange = (event: SyntheticEvent, newValue: number) => {
+		setValue(newValue);
+	};
+
   const darkTheme = createTheme({
     palette: {
       mode: 'dark',
@@ -20,22 +26,46 @@ export default function Header():React.ReactElement {
       },
     },
   });
+
+  const a11yProps = (index: number) => ({
+    id: `simple-tab-${index}`,
+    marginLeft: "25px",
+    "aria-controls": `simple-tabpanel-${index}`,
+  });
+
   return (
     <ThemeProvider theme={darkTheme}>
       <AppBar position="static" color="primary">
         <Toolbar variant="dense">
-          <Stack direction="row" spacing={1}>
             <IconButton>
-              <MenuIcon />
+              <AppsIcon />
             </IconButton>
             <IconButton>
               <ReplyOutlinedIcon />
             </IconButton>
-            <Typography variant="h6">Просмотр</Typography>
-            <Typography variant="h6">Управление</Typography>
-          </Stack>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              aria-label="basic tabs"
+              textColor="inherit"
+              sx={{
+                "& .MuiTabs-indicator": {
+                  backgroundColor: "white",
+                },
+              }}
+            >
+              <Tab
+                label="Просмотр"
+                sx={{color: "white", fontSize: '14px'}}
+                {...a11yProps(0)}
+              />
+              <Tab
+                label="Управление"
+                sx={{color: "white", fontSize: '14px'}}
+                {...a11yProps(1)}
+              />
+            </Tabs>
         </Toolbar>
-        
       </AppBar>
     </ThemeProvider>
   );

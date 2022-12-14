@@ -92,6 +92,7 @@ export default function TableRowComponent(props: Props):React.ReactElement {
               },
             },
           }}
+          //onKeyDown={updateRow}
         >
           <TableCell sx={{ color: "white", pt: 0, pb: 0 }}>
             <SpeedDial
